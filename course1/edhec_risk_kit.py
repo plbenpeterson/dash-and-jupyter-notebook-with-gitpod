@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 
 def drawdown(return_series: pd.Series):
     """
@@ -59,4 +61,16 @@ def semideviation (r):
     is_negative = r < 0
     return r[is_negative].std(ddof=0)
 
+def var_historic(r, level=5):
+    """
+    Returns the historic Value at Risk at a specified level
+    i.e. returns the number such that "level" percent of the returns
+    fall below that number, and the (100-level) percent are above
+    """
+    if isinstance(r, pd.DataFrame):
+        return r.aggregate(var_historic, level=level)
+    elif isinstance(r, pd.Series):
+        return -np.percentile(r, level)
+    else:
+        raise TypeError("Expected to be Series or DataFrame")
 
