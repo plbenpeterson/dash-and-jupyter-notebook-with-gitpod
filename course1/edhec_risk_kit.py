@@ -51,3 +51,12 @@ def skewness(r):
     exp = (demeaned_r**3).mean()
     return exp/sigma_r**3
 
+def semideviation (r):
+    """
+    Returns the semideviation aka negative semideviation of r
+    r must be a Series or DataFrame
+    """
+    is_negative = r < 0
+    return r[is_negative].std(ddof=0)
+
+
