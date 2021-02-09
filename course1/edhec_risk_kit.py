@@ -117,3 +117,12 @@ def cvar_historic(r, level=5):
         return r.aggregate(cvar_historic, level=level)
     else:
         raise TypeError("Expected r to be a Series or DataFrame")
+        
+def get_ind_returns():
+    """
+    Load and get the Ken French 30 Industry Portfolios Value Weighted Monthly Returns
+    """
+    ind = pd.read_csv("data/ind30_m_vw_rets.csv", header=0, index_col=0)/100
+    ind.index = pd.to_datetime(ind.index, format="%Y%m").to_period('M')
+    ind.columns = ind.columns.str.strip()
+    return ind
